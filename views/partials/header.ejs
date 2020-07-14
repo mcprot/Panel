@@ -25,6 +25,8 @@
     <link href="/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="/css/colors/blue-dark.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -34,6 +36,25 @@
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+
+<script>
+    <% if(error){ %>
+    swal({
+        title: "Error!",
+        text: '<%= error %>',
+        icon: "error",
+    });
+    <% } %>
+
+    <% if(info){ %>
+    swal({
+        title: "Success!",
+        text: '<%= info %>',
+        icon: "success",
+    });
+    <% } %>
+</script>
+
 <!-- ============================================================== -->
 <!-- Preloader - style you can find in spinners.css -->
 <!-- ============================================================== -->

@@ -4,13 +4,13 @@ let router = express.Router();
 router.use('/login', require('./login.route.js'));
 router.use('/register', require('./register.route.js'));
 
-/*router.use((req, res, next) => {
+router.use((req, res, next) => {
     if(req.user != null){
         next();
     }else{
         res.redirect('/login');
     }
-});*/
+});
 
 router.get('/', function (req, res, next) {
     res.redirect('/dashboard');

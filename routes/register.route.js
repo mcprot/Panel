@@ -3,15 +3,14 @@ let router = express.Router();
 let User = require('../models/user.model');
 
 router.get('/', (req, res) => {
-    return res.render('register');
+    return res.render('register', {title: "Register"});
 });
 
 router.post('/', (req, res) => {
-    if(req.body.username && req.body.password && req.body.email && req.body.firstname && req.body.lastname){
+    if(req.body.email && req.body.password && req.body.firstname && req.body.lastname){
         let payload = {
-            username: req.body.username,
-            password: req.body.password,
             email: req.body.email,
+            password: req.body.password,
             firstname: req.body.firstname,
             lastname: req.body.lastname
         };
@@ -19,7 +18,7 @@ router.post('/', (req, res) => {
            req.session.userId = user._id;
            res.redirect('/dashboard');
        }).catch(err => {
-           req.session.error = "Username or Email already in use.";
+           req.session.error = "An account has been found with that email. Please try logging in.";
            res.redirect('back');
        });
     }else{
