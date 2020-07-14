@@ -1,0 +1,46 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/navbar.ejs') %>
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <a href="/admin/servers/add">
+                <button type="button" class="btn waves-effect waves-light btn-info">Add Server</button>
+            </a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Location</th>
+                        <th>API Key</th>
+                        <th>Status</th>
+                        <th class="text-nowrap">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1.1.1.1</td>
+                        <td>CA, USA</td>
+                        <td>
+                            <code>123ABC</code>
+                        </td>
+                        <td>
+                            <span class="label label-success">Online</span>
+                            <!--
+                            <span class="label label-danger">Offline</span>
+                            -->
+                        </td>
+                        <td class="text-nowrap">
+                            <a href="/analytics/SERVERID" data-toggle="tooltip" data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
+                            <a href="/admin/servers/delete/SERVERID" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
