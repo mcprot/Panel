@@ -1,6 +1,7 @@
 <%- include('partials/header.ejs') %>
 <%- include('partials/navbar.ejs') %>
 
+
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -22,28 +23,48 @@
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Hostname</th>
+                            <th>Plan</th>
+                            <th>Expiry</th>
+                            <th>Status</th>
+                            <th class="text-nowrap">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-body">
-                    <h4 class="card-title">New Proxy</h4>
-                    <form class="form-horizontal m-t-40" method="post" action="/proxy/new/<%=plan%>">
-                        <div class="form-group">
-                            <label>Hostname <span class="help"> e.g. "mc.dec0de.xyz"</span></label>
-                            <input type="text" name="hostname" class="form-control" value="mc.dec0de.xyz">
-                        </div>
-                        <div class="form-group">
-                            <label>Backends (Comma Separated)<span class="help"> e.g. "1.1.1.1:25565,1.2.2.1:25565"</span></label>
-                            <textarea type="text" name="targets" class="form-control"></textarea>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Create Proxy</button>
-                    </form>
+                        <%proxies.forEach(function(proxy){%>
+
+                        <tr>
+                            <td><%=proxy.hostname%></td>
+                            <td><%=proxy.plan%></td>
+                            <td>
+                                <code><%=proxy.expiry%></code>
+                            </td>
+                            <td>
+                                <% if(proxy.expiry < Date.now()){%>
+                                <span class="label label-success">Active</span>
+                                <%}else{%>
+                                        <span class="label label-danger">Expired</span>
+                                    <%}%>
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="/proxy/analytics/<%=proxy._id%>" data-toggle="tooltip" data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
+                                <a href="/proxy/delete/<%=proxy._id%>" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+                        </tr>
+                        <%})%>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
     <!-- ============================================================== -->
     <!-- footer -->
@@ -60,6 +81,5 @@
 <!-- ============================================================== -->
 <!-- End Wrapper -->
 <!-- ============================================================== -->
-
 <%- include('partials/scripts.ejs') %>
 <%- include('partials/footer.ejs') %>

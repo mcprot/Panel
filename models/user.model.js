@@ -14,7 +14,8 @@ let UserSchema = new mongoose.Schema({
     firstname: String,
     lastname: String,
     password: String,
-    date: {type: Date, default: Date.now}
+    date: {type: Date, default: Date.now},
+    stripe_id: String
 });
 
 UserSchema.statics.authenticate = (email, password) => {

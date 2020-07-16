@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 
-router.use('/login', require('./login.route.js'));
-router.use('/register', require('./register.route.js'));
+router.use('/login', require('./login.route'));
+router.use('/register', require('./register.route'));
 
 router.use((req, res, next) => {
     if(req.user != null){
@@ -16,10 +16,11 @@ router.get('/', function (req, res, next) {
     res.redirect('/dashboard');
 });
 
-router.use('/dashboard', require('./dashboard.route.js'));
-router.use('/billing', require('./billing.route.js'));
-router.use('/docs', require('./docs.route.js'));
-router.use('/admin', require('./admin.route.js'));
+router.use('/dashboard', require('./dashboard.route'));
+router.use('/billing', require('./billing.route'));
+router.use('/docs', require('./docs.route'));
+router.use('/admin', require('./admin.route'));
+router.use('/proxy', require('./proxy.route'));
 
 router.get('/logout', function (req, res, next) {
     if (req.session) {

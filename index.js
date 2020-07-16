@@ -7,6 +7,7 @@ let compression = require('compression');
 let session = require('express-session');
 let MongoStore = require('connect-mongo')(session);
 let favicon = require('serve-favicon');
+
 let User = require('./models/user.model');
 
 app.use(compression());
@@ -82,7 +83,7 @@ app.use((req, res, next) => {
 
 // Manage all errors
 app.use((err, req, res, next) => {
-    return res.render("error", {error: err});
+    return res.render("error", {error: err, title: "Error"});
 });
 
 // Start server and listen on port

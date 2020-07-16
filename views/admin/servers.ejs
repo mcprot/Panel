@@ -41,23 +41,28 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    <%servers.forEach(function(server){%>
+
                     <tr>
-                        <td>1.1.1.1</td>
-                        <td>CA, USA</td>
+                        <td><%=server.ip_address%></td>
+                        <td><%=server.location%></td>
                         <td>
-                            <code>123ABC</code>
+                            <code><%=server.api_key%></code>
                         </td>
                         <td>
                             <span class="label label-success">Online</span>
                             <!--
+                            TODO make this check for when the last request was, if it was over 45 seconds then its offline.
                             <span class="label label-danger">Offline</span>
                             -->
                         </td>
                         <td class="text-nowrap">
-                            <a href="/analytics/SERVERID" data-toggle="tooltip" data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
-                            <a href="/admin/servers/delete/SERVERID" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
+                            <a href="/admin/analytics/server/<%=server._id%>" data-toggle="tooltip" data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
+                            <a href="/admin/servers/delete/<%=server._id%>" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
                         </td>
                     </tr>
+                    <%})%>
                     </tbody>
                 </table>
             </div>
@@ -79,4 +84,5 @@
 <!-- ============================================================== -->
 <!-- End Wrapper -->
 <!-- ============================================================== -->
+<%- include('../partials/scripts.ejs') %>
 <%- include('../partials/footer.ejs') %>
