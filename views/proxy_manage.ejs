@@ -32,30 +32,46 @@
                         <tr>
                             <th>Hostname</th>
                             <th>Plan</th>
-                            <th>Expiry</th>
                             <th>Status</th>
+                            <th>Expiry</th>
                             <th class="text-nowrap">Action</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <%proxies.forEach(function(proxy){%>
+                        <%proxies.forEach(function(proxy){
+                            let proxyPlan;
+
+                            var BreakException = {};
+
+                            try {
+                                plans.forEach(function(plan){
+                                    if(plan._id == proxy.plan){
+                                        proxyPlan = plan.name;
+                                        throw BreakException;
+                                    }
+                                });
+                            } catch (e) {
+                                if (e !== BreakException) throw e;
+                            }
+                        %>
 
                         <tr>
                             <td><%=proxy.hostname%></td>
-                            <td><%=proxy.plan%></td>
+                            <td><%=proxyPlan%></td>
+                            <td>
+                                <% if(new Date(proxy.expiry) > Date.now()){%>
+                                    <span class="label label-success">Active</span>
+                                <%}else{%>
+                                    <span class="label label-danger">Expired</span>
+                                <%}%>
+                            </td>
                             <td>
                                 <code><%=proxy.expiry%></code>
                             </td>
-                            <td>
-                                <% if(proxy.expiry < Date.now()){%>
-                                <span class="label label-success">Active</span>
-                                <%}else{%>
-                                        <span class="label label-danger">Expired</span>
-                                    <%}%>
-                            </td>
                             <td class="text-nowrap">
                                 <a href="/proxy/analytics/<%=proxy._id%>" data-toggle="tooltip" data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
+                                <a href="/proxy/edit/<%=proxy._id%>" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-warning m-r-10"></i> </a>
                                 <a href="/proxy/delete/<%=proxy._id%>" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
                             </td>
                         </tr>

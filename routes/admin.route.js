@@ -3,10 +3,18 @@ let Server = require('../models/server.model');
 let router = express.Router();
 
 router.get('/analytics', function (req, res, next) {
+    if(!req.user.admin){
+        res.redirect("/");
+    }
+
     return res.render("admin/analytics", {title: 'Admin | Analytics'});
 });
 
 router.get('/servers', function (req, res, next) {
+    if(!req.user.admin){
+        res.redirect("/");
+    }
+
     Server.find({}, function (err, servers) {
         return res.render("admin/servers", {
             title: "Admin | Servers",
@@ -16,7 +24,29 @@ router.get('/servers', function (req, res, next) {
 });
 
 router.get('/servers/add', function (req, res, next) {
+    if(!req.user.admin){
+        res.redirect("/");
+    }
+
     return res.render("admin/servers_add", {title: 'Admin | Servers | Add'});
+});
+
+router.get('/servers/delete/:server', (req, res, next) => {
+    if(!req.user.admin){
+        res.redirect("/");
+    }
+    Server.exists({_id: req.params.server}, (err, result) => {
+        if(result){
+            Server.deleteOne({_id: req.params.server}, (err) => {
+                if(err){
+                    req.session.error = "An error has occurred.";
+                    res.redirect('back');
+                }
+                req.session.info = "Successfully deleted.";
+                res.redirect('back');
+            });
+        }
+    });
 });
 
 router.post('/servers/add', (req, res, next) => {
