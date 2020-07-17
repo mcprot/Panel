@@ -36,8 +36,8 @@ router.get('/:api_key/:type', function (req, res, next) {
                     Plans.find({}, (err, result) => {
                         return res.json({message: "Fetched Plans", status: 200, data: result});
                     });
-                } else if (type == "server") {
-                    Server.findOne({api_key: req.params.api_key}, (err, result) => {
+                } else if (type == "servers") {
+                    Server.find({}, (err, result) => {
                         return res.json({message: "Success", status: 200, data: result});
                     });
                 } else {
@@ -71,15 +71,14 @@ router.put('/:api_key/:type', (req, res, next) => {
                 Server.findOne({api_key: req.params.api_key}, (err, server) => {
                     if (server) {
                         if (type == "analytic") {
-                            let analyticKeys = ['proxy_id', 'connections', 'bandwidth'];
+                            let analyticKeys = ['proxy_id', 'connections'];
                             if (analyticKeys.every(item => body.proxies[0].hasOwnProperty(item))) {
                                 body.proxies.forEach(proxy => {
                                     Proxy.exists({_id: proxy.proxy_id}, (err, result) => {
                                         let connectionsServer = "connections." + server._id;
                                         Analytic.updateOne({proxy_id: proxy.proxy_id},
                                             {
-                                                [connectionsServer]: proxy.connections,
-                                                $inc: {bandwidth: proxy.bandwidth}
+                                                [connectionsServer]: proxy.connections
                                             }, (err, result) => {
                                                 if (result) {
                                                     return res.json({
@@ -95,7 +94,7 @@ router.put('/:api_key/:type', (req, res, next) => {
                                 return res.json({message: "Bad Request", status: 400, data: {}});
                             }
                         } else if (type == "connection") {
-                            let connectionKeys = ['proxy_id', 'version', 'forge', 'ip_address', 'date', 'success']
+                            let connectionKeys = ['proxy_id', 'version', 'forge', 'ip_address', 'bytes_ingress', 'bytes_egress', 'date_connect', 'date_disconnect', 'success']
                             if (connectionKeys.every(item => body.connections[0].hasOwnProperty(item))) {
                                 body.connections.forEach(connection => {
                                     Connection.create({
@@ -103,8 +102,11 @@ router.put('/:api_key/:type', (req, res, next) => {
                                         version: connection.version,
                                         forge: connection.forge,
                                         ip_address: connection.ip_address,
-                                        date: connection.date,
+                                        date_connect: connection.date_connect,
+                                        date_disconnect: connection.date_disconnect,
                                         success: connection.success,
+                                        bytes_ingress: connection.bytes_ingress,
+                                        bytes_egress: connection.bytes_egress,
                                         server_id: server._id
                                     }, (err, result) => {
                                         if(result) {

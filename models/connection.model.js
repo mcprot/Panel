@@ -8,8 +8,11 @@ let ConnectionSchema = new mongoose.Schema({
     },
     version: Number,
     ip_address: String,
-    date: Date,
+    date_connect: Date,
+    date_disconnect: Date,
     success: Boolean,
+    bytes_egress: Number,
+    bytes_ingress: Number,
     forge: Boolean,
     server_id: {
         type: mongoose.ObjectId,

@@ -9,8 +9,7 @@ let AnalyticSchema = new mongoose.Schema({
     connections: {
         type: Map,
         default: {}
-    },
-    bandwidth: Number
+    }
 });
 
 let AnalyticModel = mongoose.model('Analytic', AnalyticSchema);
