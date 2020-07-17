@@ -87,8 +87,6 @@ router.put('/:api_key/:type', (req, res, next) => {
                                                         status: 200,
                                                         data: {}
                                                     });
-                                                }else{
-                                                    return res.json({message: "Bad Request", status: 400, data: {}});
                                                 }
                                             });
                                     });
@@ -115,8 +113,6 @@ router.put('/:api_key/:type', (req, res, next) => {
                                                 status: 200,
                                                 data: {}
                                             });
-                                        }else{
-                                            return res.json({message: "Bad Request", status: 400, data: {}});
                                         }
                                     });
                                 });
