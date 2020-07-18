@@ -23,8 +23,6 @@ router.get('/', function (req, res, next) {
            bandwidth_bytes_egress+=con.bytes_egress;
            bandwidth_bytes_ingress+=con.bytes_ingress;
         });
-
-        console.log(connectionCount + startDateMonth);
     });
 
     News.find({}, (err, news) => {
