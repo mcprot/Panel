@@ -12,11 +12,11 @@
     <!-- ============================================================== -->
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h3 class="text-themecolor"><%=title%></h3>
+            <h3 class="text-themecolor"><%= title %></h3>
         </div>
         <!--<div class="col-md-7 align-self-center">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><%=title%></li>
+                <li class="breadcrumb-item active"><%= title %></li>
             </ol>
         </div>-->
     </div>
@@ -32,12 +32,23 @@
         <!-- ============================================================== -->
         <!-- Row -->
         <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Failed & Successful Connections <small>(this month's)</small></h4>
+                        <div>
+                            <canvas id="connections_month" height="258" width="516" style="width: 516px; height: 258px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Versions <small>(this month's)</small></h4>
                         <div>
-                            <canvas id="versions" height="230" width="500" style="width: 509px; height: 254px;"></canvas>
+                            <canvas id="versions" height="230" width="500"
+                                    style="width: 509px; height: 254px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -55,7 +66,7 @@
     <!-- ============================================================== -->
     <!-- footer -->
     <!-- ============================================================== -->
-    <footer class="footer"> © 2020 mcprot </footer>
+    <footer class="footer"> © 2020 mcprot</footer>
     <!-- ============================================================== -->
     <!-- End footer -->
     <!-- ============================================================== -->
@@ -73,32 +84,89 @@
 
 <script type="text/javascript">
 
-    let versionsData = <%-versions%>;
+    let versionsData = <%- versions %>;
 
-    $( document ).ready(function() {
-    let versionsElement = document.getElementById("versions").getContext("2d");
+    $(document).ready(function () {
+        let versionsElement = document.getElementById("versions").getContext("2d");
 
-    let versionsChart = new Chart(versionsElement).Pie(versionsData,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 0,
-        animationSteps : 100,
-        tooltipCornerRadius: 0,
-        animationEasing : "easeOutBounce",
-        animateRotate : true,
-        animateScale : false,
+        let versionsChart = new Chart(versionsElement).Pie(versionsData, {
+            segmentShowStroke: true,
+            segmentStrokeColor: "#fff",
+            segmentStrokeWidth: 0,
+            animationSteps: 100,
+            tooltipCornerRadius: 0,
+            animationEasing: "easeOutBounce",
+            animateRotate: true,
+            animateScale: false,
+            responsive: true
+        });
+    });
+
+    let connectionsMonthElement = document.getElementById("connections_month").getContext("2d");
+    let connectionsMonthData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                label: "My Second dataset",
+                fillColor: "rgba(243,245,246,0.9)",
+                strokeColor: "rgba(243,245,246,0.9)",
+                pointColor: "rgba(243,245,246,0.9)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(243,245,246,0.9)",
+                data: [28, 48, 40, 19, 86, 27, 90]
+            },
+            {
+                label: "My First dataset",
+                fillColor: "#009efb",
+                strokeColor: "#009efb",
+                pointColor: "#009efb",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "#009efb",
+                data: [0, 59, 80, 65, 10, 55, 40]
+            }
+
+        ],
+
+    };
+    Chart.types.Line.extend({
+        name: "LineAlt",
+        initialize: function () {
+            Chart.types.Line.prototype.initialize.apply(this, arguments);
+
+            let ctx = this.chart.ctx;
+            let originalStroke = ctx.stroke;
+            connectionsMonthElement.stroke = function () {
+                connectionsMonthElement.save();
+                connectionsMonthElement.shadowColor = 'rgba(0, 0, 0, 0.4)';
+                connectionsMonthElement.shadowBlur = 10;
+                connectionsMonthElement.shadowOffsetX = 8;
+                connectionsMonthElement.shadowOffsetY = 8;
+                originalStroke.apply(this, arguments)
+                connectionsMonthElement.restore();
+
+            }
+        }
+    });
+    let connectionsMonthChart = new Chart(connectionsMonthElement).LineAlt(connectionsMonthData, {
+        scaleShowGridLines: true,
+        scaleGridLineColor: "rgba(0,0,0,.005)",
+        scaleGridLineWidth: 0,
+        scaleShowHorizontalLines: true,
+        scaleShowVerticalLines: true,
+        bezierCurve: true,
+        bezierCurveTension: 0.4,
+        pointDot: true,
+        pointDotRadius: 4,
+        pointDotStrokeWidth: 2,
+        pointHitDetectionRadius: 2,
+        datasetStroke: true,
+        tooltipCornerRadius: 2,
+        datasetStrokeWidth: 0,
+        datasetFill: false,
         responsive: true
     });
-    });
-
-    function getRandomColor() {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
 </script>
 
 <%- include('partials/footer.ejs') %>

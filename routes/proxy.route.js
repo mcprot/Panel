@@ -27,9 +27,10 @@ router.get('/manage', function (req, res, next) {
 });
 
 router.get('/analytics/:proxy', function (req, res, next) {
-    let today = new Date();
-    let startDateMonth = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + 1;
-    let endDateMonth = today.getFullYear() + '-' + (today.getMonth() + 2) + '-' + 1;
+    let now = new Date();
+    let startDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+    let daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
     Connections.find({
         proxy_id: req.params.proxy,
         date_disconnect: {
@@ -38,8 +39,11 @@ router.get('/analytics/:proxy', function (req, res, next) {
         }
     }, (err, result) => {
         let versions_month = [];
+        let connections_month = []
         if (result) {
             result.forEach(con => {
+
+                //versions pie
                 function getRandomColor() {
                     let letters = '0123456789ABCDEF';
                     let color = '#';
@@ -125,7 +129,7 @@ router.post('/new/:plan', (req, res) => {
                                 res.redirect('back');
                             });
                         } else {
-                            req.session.error = "Hostname already exists.";
+                            req.session.error = "Hostn ame already exists.";
                             res.redirect('back');
                         }
                     });

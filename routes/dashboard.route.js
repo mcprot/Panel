@@ -9,9 +9,9 @@ router.get('/', function (req, res, next) {
 
     let connectionCount = 0;
 
-    let today = new Date();
-    let startDateMonth = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + 1;
-    let endDateMonth = today.getFullYear() + '-' + (today.getMonth() + 2) + '-' + 1;
+    let now = new Date();
+    let startDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1);
     Connections.find({
         date_disconnect: {
             $gt: startDateMonth,
