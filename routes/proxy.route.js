@@ -1,15 +1,18 @@
 let express = require('express');
 let router = express.Router();
+
 let Proxy = require("../models/proxy.model");
 let Analytic = require("../models/analytic.model");
 let Plan = require("../models/plan.model");
 let Invoice = require("../models/invoice.model");
+let Connections = require("../models/connection.model");
+let MinecraftVersions = require("../data/MinecraftVersions");
 
 router.get('/new/:plan', function (req, res, next) {
-    Plan.exists({ _id: req.params.plan}, function(err, result) {
-        if(result){
+    Plan.exists({_id: req.params.plan}, function (err, result) {
+        if (result) {
             res.render("proxy_new", {title: "Proxy | New", plan: req.params.plan});
-        }else{
+        } else {
             res.redirect("/billing/plans");
         }
     });
@@ -23,16 +26,66 @@ router.get('/manage', function (req, res, next) {
     });
 });
 
+router.get('/analytics/:proxy', function (req, res, next) {
+    let today = new Date();
+    let startDateMonth = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + 1;
+    let endDateMonth = today.getFullYear() + '-' + (today.getMonth() + 2) + '-' + 1;
+    Connections.find({
+        proxy_id: req.params.proxy,
+        date_disconnect: {
+            $gt: startDateMonth,
+            $lt: endDateMonth
+        }
+    }, (err, result) => {
+        let versions_month = [];
+        if(result) {
+            result.forEach(con => {
+                let contains = false;
+
+                versions_month.forEach(con_mon => {
+                    MinecraftVersions.protocolVersions.forEach(proto => {
+                        if (con_mon.label == proto.minecraftVersion) {
+                            con_mon.value += 1;
+                            contains = true;
+                        }
+                    });
+                });
+
+                if (contains == false) {
+                    function getRandomColor() {
+                        let letters = '0123456789ABCDEF';
+                        let color = '#';
+                        for (let i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return color;
+                    }
+
+                    MinecraftVersions.protocolVersions.forEach(proto => {
+                        if(con.version == proto.version){
+                            let random_color = getRandomColor();
+                            versions_month.push({value: 1, color: random_color,
+                                highlight: random_color, label: proto.minecraftVersion});
+                        }
+                    });
+                }
+            });
+        }
+
+        return res.render("proxy_analytics", {title: "Proxy | Analytics", versions: JSON.stringify(versions_month)});
+    });
+});
+
 router.get('/delete/:proxy', (req, res) => {
     Proxy.exists({_id: req.params.proxy, user: req.user._id}, (err, result) => {
-        if(result){
+        if (result) {
             Proxy.deleteOne({_id: req.params.proxy}, (err) => {
-                if(err){
+                if (err) {
                     req.session.error = "An error has occurred.";
                     res.redirect('back');
                 }
                 Analytic.deleteOne({proxy_id: req.params.proxy}, (err) => {
-                    if(err){
+                    if (err) {
                         req.session.error = "An error has occurred.";
                         res.redirect('back');
                     }
@@ -46,19 +99,19 @@ router.get('/delete/:proxy', (req, res) => {
 });
 
 router.post('/new/:plan', (req, res) => {
-    Plan.exists({ _id: req.params.plan}, function(err, result) {
+    Plan.exists({_id: req.params.plan}, function (err, result) {
         let proxy_data = {
             hostname: req.body.hostname,
             targets: req.body.targets.replace(" ", "").split(',')
         }
         Plan.findOne({_id: req.params.plan}, (err, plan) => {
-            if(proxy_data.targets.length <= plan.targets){
+            if (proxy_data.targets.length <= plan.targets) {
                 // TODO if plan is free, make proxy, if it's not, then make invoice, etc.
-                if(plan.price > 0){
+                if (plan.price > 0) {
                     //TODO create invoice
-                }else{
+                } else {
                     Proxy.exists({hostname: proxy_data.hostname}, (err, result) => {
-                        if(!result) {
+                        if (!result) {
                             Proxy.create({
                                 user: req.user._id,
                                 targets: proxy_data.targets,
@@ -80,13 +133,13 @@ router.post('/new/:plan', (req, res) => {
                                 req.session.error = "An error has occurred.";
                                 res.redirect('back');
                             });
-                        }else{
+                        } else {
                             req.session.error = "Hostname already exists.";
                             res.redirect('back');
                         }
                     });
                 }
-            }else{
+            } else {
                 req.session.error = "This plan does not allow more than " + plan.targets + " targets.";
                 res.redirect("back");
             }
