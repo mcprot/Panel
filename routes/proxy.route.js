@@ -38,35 +38,26 @@ router.get('/analytics/:proxy', function (req, res, next) {
         }
     }, (err, result) => {
         let versions_month = [];
-        if(result) {
+        if (result) {
             result.forEach(con => {
-                let contains = false;
-
-                versions_month.forEach(con_mon => {
-                    MinecraftVersions.protocolVersions.forEach(proto => {
-                        if (con_mon.label == proto.minecraftVersion) {
-                            con_mon.value += 1;
-                            contains = true;
-                        }
-                    });
-                });
-
-                if (contains == false) {
-                    function getRandomColor() {
-                        let letters = '0123456789ABCDEF';
-                        let color = '#';
-                        for (let i = 0; i < 6; i++) {
-                            color += letters[Math.floor(Math.random() * 16)];
-                        }
-                        return color;
+                function getRandomColor() {
+                    let letters = '0123456789ABCDEF';
+                    let color = '#';
+                    for (let i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
                     }
+                    return color;
+                }
 
-                    MinecraftVersions.protocolVersions.forEach(proto => {
-                        if(con.version == proto.version){
-                            let random_color = getRandomColor();
-                            versions_month.push({value: 1, color: random_color,
-                                highlight: random_color, label: proto.minecraftVersion});
-                        }
+                let proto = MinecraftVersions.protocolVersions.find(versions => con.version == versions.version);
+                let ver = versions_month.find(ver => proto.minecraftVersion == ver.label);
+                if (ver) {
+                    ver.value += 1
+                } else {
+                    let random_color = getRandomColor();
+                    versions_month.push({
+                        value: 1, color: random_color,
+                        highlight: random_color, label: proto.minecraftVersion
                     });
                 }
             });
