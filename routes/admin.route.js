@@ -1,7 +1,46 @@
 let express = require('express');
 let Server = require('../models/server.model');
+let News = require('../models/news.model');
 let router = express.Router();
 
+// news
+router.get('/news/post', function (req, res, next) {
+    if(!req.user.admin){
+        res.redirect("/");
+    }
+
+    return res.render("admin/news_post", {title: 'Admin | News | Post'});
+});
+
+router.post('/news/post', (req, res, next) => {
+    if(!req.user.admin){
+        return res.redirect("/");
+    }
+    if(req.body.title &&
+        req.body.content) {
+
+        let news_post = {
+            content: req.body.content,
+            title: req.body.title,
+            user: req.user._id,
+            date: Date.now(),
+        };
+        News.create(news_post, function (error) {
+            if (error) {
+                req.session.error = "Unable to create news post.";
+                res.redirect("back");
+            }else{
+                req.session.info = "Successfully created news post.";
+                res.redirect("back");
+            }
+        });
+    }else{
+        req.session.error = "Unable to create news post.";
+        res.redirect("back");
+    }
+});
+
+// analytics
 router.get('/analytics', function (req, res, next) {
     if(!req.user.admin){
         res.redirect("/");
@@ -10,6 +49,7 @@ router.get('/analytics', function (req, res, next) {
     return res.render("admin/analytics", {title: 'Admin | Analytics'});
 });
 
+// servers
 router.get('/servers', function (req, res, next) {
     if(!req.user.admin){
         res.redirect("/");
@@ -69,16 +109,15 @@ router.post('/servers/add', (req, res, next) => {
         Server.create(server_data, function (error) {
             if (error) {
                 req.session.error = "Unable to add server.";
-
-                res.redirect("/admin/servers/add");
+                res.redirect("back");
             }else{
                 req.session.info = "Successfully added server.";
-
-                res.redirect("/admin/servers");
+                res.redirect("back");
             }
         });
     }else{
-        res.render("admin/servers_add", {title: "Admin | Servers | Add", error: "Unable to add server. Try again!"});
+        req.session.error = "Unable to add server.";
+        res.redirect("back");
     }
 });
 

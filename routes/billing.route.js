@@ -4,7 +4,7 @@ let router = express.Router();
 let Plan = require('../models/plan.model');
 
 router.get('/plans', function (req, res, next) {
-    Plan.find({custom: false}, function (err, plans) {
+    Plan.find({custom: false}, (err, plans) => {
         return res.render("billing_plans", {
             title: "Billing | Plans",
             plans: plans,
