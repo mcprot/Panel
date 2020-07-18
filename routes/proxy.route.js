@@ -30,7 +30,7 @@ router.get('/analytics/:proxy', function (req, res, next) {
     let now = new Date();
     let startDateMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    let daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    let daysInMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
     Connections.find({
         proxy_id: req.params.proxy,
         date_disconnect: {
@@ -39,10 +39,32 @@ router.get('/analytics/:proxy', function (req, res, next) {
         }
     }, (err, result) => {
         let versions_month = [];
-        let connections_month = []
+        let successful_connections_month = [];
+        let failed_connections_month = []
+        let connections_month_labels = [];
         if (result) {
-            result.forEach(con => {
 
+            for(let dayInc = 1; dayInc <= daysInMonth; dayInc++){
+                connections_month_labels.push((new Date().toDateString().substring(4, 7)) + " " + dayInc);
+
+                let successfulConnections = 0;
+                let failedConnections = 0;
+                result.forEach(con => {
+                    let conDate = con.date_disconnect;
+                    //console.log(conDay + " - " + dayDate);
+                    if(conDate.getDate() == dayInc){
+                        if(con.success){
+                            successfulConnections+=1;
+                        }else{
+                            failedConnections+=1;
+                        }
+                    }
+                });
+
+                successful_connections_month.push(successfulConnections);
+                failed_connections_month.push(failedConnections);
+            }
+            result.forEach(con => {
                 //versions pie
                 function getRandomColor() {
                     let letters = '0123456789ABCDEF';
@@ -67,7 +89,12 @@ router.get('/analytics/:proxy', function (req, res, next) {
             });
         }
 
-        return res.render("proxy_analytics", {title: "Proxy | Analytics", versions: JSON.stringify(versions_month)});
+        return res.render("proxy_analytics", {title: "Proxy | Analytics",
+            versions: JSON.stringify(versions_month),
+            failed_connections_month: JSON.stringify(failed_connections_month),
+            successful_connections_month: JSON.stringify(successful_connections_month),
+            connections_month_labels: JSON.stringify(connections_month_labels)
+        });
     });
 });
 
