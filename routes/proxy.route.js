@@ -30,7 +30,7 @@ router.get('/analytics/:proxy', function (req, res, next) {
     let now = new Date();
     let startDateMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    let daysInMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    let daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     Connections.find({
         proxy_id: req.params.proxy,
         date_disconnect: {
