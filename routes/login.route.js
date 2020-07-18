@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
             req.session.userId = user._id;
             res.redirect('/dashboard');
         }).catch(err => {
-            req.session.error = "Incorrect username or password.";
+            req.session.error = "Incorrect email or password.";
             res.redirect('back');
         });
     }else{

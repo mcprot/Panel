@@ -10,8 +10,8 @@ router.get('/', function (req, res, next) {
     let connectionCount = 0;
 
     let now = new Date();
-    let startDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+    let startDateMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     Connections.find({
         date_disconnect: {
             $gt: startDateMonth,
@@ -23,6 +23,8 @@ router.get('/', function (req, res, next) {
            bandwidth_bytes_egress+=con.bytes_egress;
            bandwidth_bytes_ingress+=con.bytes_ingress;
         });
+
+        console.log(connectionCount + startDateMonth);
     });
 
     News.find({}, (err, news) => {
