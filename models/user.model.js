@@ -53,7 +53,11 @@ let hashPassword = (password) => new Promise((resolve, reject) => {
 let verifyHash = (password, original) => new Promise((resolve, reject) => {
     bcrypt.compare(password, original, function (err, result) {
         if (err) reject(new Error(err));
-        resolve(result);
+        if(result) {
+            resolve(result);
+        }else{
+            reject(new Error(err));
+        }
     });
 });
 
