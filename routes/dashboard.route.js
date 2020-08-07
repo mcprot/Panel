@@ -23,25 +23,25 @@ router.get('/', function (req, res, next) {
            bandwidth_bytes_egress+=con.bytes_egress;
            bandwidth_bytes_ingress+=con.bytes_ingress;
         });
+
+        News.find({}, (err, news) => {
+            let gig_egress = (bandwidth_bytes_egress * (Math.pow(10, -9)));
+            let gig_ingress = (bandwidth_bytes_ingress * (Math.pow(10, -9)));
+
+            let text_egress = gig_egress > 1000 ? (gig_egress/1000).toFixed(2) + "TB"
+                : gig_egress.toFixed(2) + "GB";
+            let text_ingress = gig_ingress > 1000 ? (gig_ingress/1000).toFixed(2) + "TB"
+                : gig_ingress.toFixed(2) + "GB";
+
+            return res.render("dashboard", {
+                title: "Dashboard",
+                news: news,
+                ingress: text_ingress,
+                egress: text_egress,
+                connection_count: connectionCount
+            });
+        }).sort({date: 1}).limit(5);
     });
-
-    News.find({}, (err, news) => {
-        let gig_egress = (bandwidth_bytes_egress * (Math.pow(10, -9)));
-        let gig_ingress = (bandwidth_bytes_ingress * (Math.pow(10, -9)));
-
-        let text_egress = gig_egress > 1000 ? (gig_egress/1000).toFixed(2) + "TB"
-            : gig_egress.toFixed(2) + "GB";
-        let text_ingress = gig_ingress > 1000 ? (gig_ingress/1000).toFixed(2) + "TB"
-            : gig_ingress.toFixed(2) + "GB";
-
-        return res.render("dashboard", {
-            title: "Dashboard",
-            news: news,
-            ingress: text_ingress,
-            egress: text_egress,
-            connection_count: connectionCount
-        });
-    }).sort({date: 1}).limit(5);
 });
 
 module.exports = router;

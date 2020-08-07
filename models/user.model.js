@@ -20,7 +20,7 @@ let UserSchema = new mongoose.Schema({
 
 UserSchema.statics.authenticate = (email, password) => {
     return new Promise((resolve, reject) => {
-        UserModel.findOne({"email": {$regex: new RegExp(email, "i")}}).exec().then(user => {
+        UserModel.findOne({"email": email}).exec().then(user => {
             if (!user) {
                 let err = new Error('An account could not be found using that email/password.');
                 err.status = 401;
