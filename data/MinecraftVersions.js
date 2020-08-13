@@ -1,5 +1,54 @@
 let protocolVersions = [
     {
+        "minecraftVersion": "1.16.2",
+        "version": 751,
+        "dataVersion": 2578,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "1.16.2-rc2",
+        "version": 750,
+        "dataVersion": 2577,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "1.16.2-rc1",
+        "version": 749,
+        "dataVersion": 2576,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "1.16.2-pre3",
+        "version": 748,
+        "dataVersion": 2575,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "1.16.2-pre2",
+        "version": 746,
+        "dataVersion": 2574,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "1.16.2-pre1",
+        "version": 744,
+        "dataVersion": 2573,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
+        "minecraftVersion": "20w30a",
+        "version": 743,
+        "dataVersion": 2572,
+        "usesNetty": true,
+        "majorVersion": "1.16"
+    },
+    {
         "minecraftVersion": "20w29a",
         "version": 741,
         "dataVersion": 2571,
