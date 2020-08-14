@@ -80,13 +80,14 @@ router.put('/:api_key/:type', (req, res, next) => {
                                             {
                                                 [connectionsServer]: proxy.connections
                                             }, (err, result) => {
-                                                if (result) {
-                                                    return res.json({
-                                                        message: "Updated Analytics.",
-                                                        status: 200,
-                                                        data: {}
-                                                    });
+                                                if (err) {
+                                                    return res.json({message: "Bad Request", status: 400, data: {}});
                                                 }
+                                                return res.json({
+                                                    message: "Updated Analytics.",
+                                                    status: 200,
+                                                    data: {}
+                                                });
                                             });
                                     });
                                 });
@@ -109,13 +110,14 @@ router.put('/:api_key/:type', (req, res, next) => {
                                         bytes_egress: connection.bytes_egress,
                                         server_id: server._id
                                     }, (err, result) => {
-                                        if(result) {
+                                        if(err){
+                                            return res.json({message: "Bad Request", status: 400, data: {}});
+                                        }
                                             return res.json({
                                                 message: "Created Connection Logs",
                                                 status: 200,
                                                 data: {}
                                             });
-                                        }
                                     });
                                 });
                             } else {
