@@ -6,7 +6,6 @@ let Analytic = require("../models/analytic.model");
 let Plan = require("../models/plan.model");
 let Invoice = require("../models/invoice.model");
 let Connections = require("../models/connection.model");
-let MinecraftVersions = require("../data/MinecraftVersions");
 
 router.get('/new/:plan', function (req, res, next) {
     Plan.exists({_id: req.params.plan}, function (err, result) {
@@ -75,7 +74,14 @@ router.get('/analytics/:proxy', function (req, res, next) {
                     return color;
                 }
 
-                let proto = MinecraftVersions.protocolVersions.find(versions => con.version == versions.version);
+                let MinecraftData = require("minecraft-data")(con.version);
+                let proto = null;
+                try {
+                    proto = MinecraftData.version
+                } catch (ex) {
+                    proto = {minecraftVersion: "Unknown"};
+                }
+
                 let ver = versions_month.find(ver => proto.minecraftVersion == ver.label);
                 if (ver) {
                     ver.value += 1
