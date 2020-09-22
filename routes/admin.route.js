@@ -56,9 +56,17 @@ router.get('/servers', function (req, res, next) {
     }
 
     Server.find({}, function (err, servers) {
+        let statuses = [];
+
+        servers.forEach(server => {
+            let status = ((new Date) - server.last_request) <= (35 * 1000);
+            statuses.push({server_id: server._id, online: status});
+        })
+
         return res.render("admin/servers", {
             title: "Admin | Servers",
             servers: servers,
+            status: statuses
         });
     }).sort({last_request: -1});
 });

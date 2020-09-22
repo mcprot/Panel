@@ -27,9 +27,15 @@ router.get('/manage', function (req, res, next) {
 
 router.get('/analytics/:proxy', function (req, res, next) {
     let now = new Date();
-    let startDateMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    let startDateMonth = new Date(now.getFullYear(), now.getMonth(), 0);
     let endDateMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     let daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+    let bandwidth_bytes_egress = 0;
+    let bandwidth_bytes_ingress = 0;
+
+    let connectionCount = 0;
+
     Connections.find({
         proxy_id: req.params.proxy,
         date_disconnect: {
@@ -43,7 +49,14 @@ router.get('/analytics/:proxy', function (req, res, next) {
         let connections_month_labels = [];
         if (result) {
 
-            for(let dayInc = 1; dayInc <= daysInMonth; dayInc++){
+            connectionCount = result.length;
+
+            result.forEach(con => {
+                bandwidth_bytes_egress += con.bytes_egress;
+                bandwidth_bytes_ingress += con.bytes_ingress;
+            })
+
+            for (let dayInc = 1; dayInc <= daysInMonth; dayInc++) {
                 connections_month_labels.push((new Date().toDateString().substring(4, 7)) + " " + dayInc);
 
                 let successfulConnections = 0;
@@ -51,7 +64,7 @@ router.get('/analytics/:proxy', function (req, res, next) {
                 result.forEach(con => {
                     let conDate = con.date_disconnect;
                     //console.log(conDay + " - " + dayDate);
-                    if(conDate.getDate() == dayInc){
+                    if (conDate.getDate() == dayInc) {
                         if(con.success){
                             successfulConnections+=1;
                         }else{
@@ -95,11 +108,23 @@ router.get('/analytics/:proxy', function (req, res, next) {
             });
         }
 
-        return res.render("proxy_analytics", {title: "Proxy | Analytics",
+        let gig_egress = (bandwidth_bytes_egress * (Math.pow(10, -9)));
+        let gig_ingress = (bandwidth_bytes_ingress * (Math.pow(10, -9)));
+
+        let text_egress = gig_egress > 1000 ? (gig_egress / 1000).toFixed(2) + "TB"
+            : gig_egress.toFixed(2) + "GB";
+        let text_ingress = gig_ingress > 1000 ? (gig_ingress / 1000).toFixed(2) + "TB"
+            : gig_ingress.toFixed(2) + "GB";
+
+        return res.render("proxy_analytics", {
+            title: "Proxy | Analytics",
             versions: JSON.stringify(versions_month),
             failed_connections_month: JSON.stringify(failed_connections_month),
             successful_connections_month: JSON.stringify(successful_connections_month),
-            connections_month_labels: JSON.stringify(connections_month_labels)
+            connections_month_labels: JSON.stringify(connections_month_labels),
+            ingress: text_ingress,
+            egress: text_egress,
+            connection_count: connectionCount
         });
     });
 });

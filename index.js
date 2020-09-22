@@ -83,7 +83,8 @@ app.use((req, res, next) => {
 
 // Manage all errors
 app.use((err, req, res, next) => {
-    return res.render("error", {error: err, title: "Error"});
+    console.log(err);
+    return res.render("error", {title: "Error"});
 });
 
 // Start server and listen on port
