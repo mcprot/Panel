@@ -62,7 +62,6 @@ app.use((req, res, next) => {
         req.session.info = null;
         req.session.error = null;
         app.locals.url = req.url;
-        app.locals.user = user;
         req.user = user;
         next();
     }).catch(err => {
