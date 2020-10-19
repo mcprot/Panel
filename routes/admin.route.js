@@ -1,5 +1,5 @@
 let express = require('express');
-let Server = require('../models/server.model');
+let Server = require('../models/server');
 let News = require('../models/news.model');
 let router = express.Router();
 

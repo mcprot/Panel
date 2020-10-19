@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 
 let Proxy = require("../models/proxy.model");
-let Analytic = require("../models/analytic.model");
+let Analytic = require("../models/analytic");
 let Plan = require("../models/plan.model");
 let Invoice = require("../models/invoice.model");
 let Connections = require("../models/connection.model");

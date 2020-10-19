@@ -3,7 +3,7 @@ let router = express.Router();
 
 router.use('/login', require('./login.route'));
 router.use('/register', require('./register.route'));
-router.use('/api', require('./api.route'));
+router.use('/api', require('./api'));
 
 router.use((req, res, next) => {
     if(req.user != null){

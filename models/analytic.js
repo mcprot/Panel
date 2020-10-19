@@ -12,6 +12,6 @@ let AnalyticSchema = new mongoose.Schema({
     }
 });
 
-let AnalyticModel = mongoose.model('Analytic', AnalyticSchema);
+let Analytic = mongoose.model('Analytic', AnalyticSchema);
 
-module.exports = AnalyticModel;
+module.exports = Analytic;

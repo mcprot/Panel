@@ -7,6 +7,6 @@ let ServerSchema = new mongoose.Schema({
     last_request: Date
 });
 
-let ServerModel = mongoose.model('Server', ServerSchema);
+let Server = mongoose.model('Server', ServerSchema);
 
-module.exports = ServerModel;
+module.exports = Server;
