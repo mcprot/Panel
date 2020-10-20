@@ -1,9 +1,12 @@
-let express = require('express');
-let router = express.Router();
+import {Router} from 'express';
+import api from './api';
+
+let router = Router();
+
 
 router.use('/login', require('./login.route'));
 router.use('/register', require('./register.route'));
-router.use('/api', require('./api'));
+router.use('/api', api);
 
 router.use((req, res, next) => {
     if(req.user != null){
@@ -35,4 +38,4 @@ router.get('/logout', function (req, res, next) {
     }
 });
 
-module.exports = router;
+export default router;
