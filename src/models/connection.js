@@ -21,6 +21,6 @@ let ConnectionSchema = new mongoose.Schema({
     },
 });
 
-let ConnectionModel = mongoose.model('Connection', ConnectionSchema);
+let Connection = mongoose.model('Connection', ConnectionSchema);
 
-module.exports = ConnectionModel;
+module.exports = Connection;

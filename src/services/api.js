@@ -1,8 +1,8 @@
 import Server from '../models/server'
 import Analytic from '../models/analytic'
-import Proxy from '../models/proxy.model'
-import Plan from '../models/plan.model'
-import Connection from '../models/connection.model'
+import Proxy from '../models/proxy'
+import Plan from '../models/plan'
+import Connection from '../models/connection'
 
 export default {
 

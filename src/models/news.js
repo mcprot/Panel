@@ -11,6 +11,6 @@ let NewsSchema = new mongoose.Schema({
     content: String
 });
 
-let NewsModel = mongoose.model('News', NewsSchema);
+let News = mongoose.model('News', NewsSchema);
 
-module.exports = NewsModel;
+module.exports = News;

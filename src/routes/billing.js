@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
+import {Router} from 'express';
+let router = Router();
 
-let Plan = require('../models/plan.model');
+let Plan = require('../models/plan');
 
 router.get('/plans', function (req, res, next) {
     Plan.find({custom: false}, (err, plans) => {
@@ -12,4 +12,4 @@ router.get('/plans', function (req, res, next) {
     }).sort({price: 1}).limit(4);
 });
 
-module.exports = router;
+export default router;

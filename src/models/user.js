@@ -20,7 +20,7 @@ let UserSchema = new mongoose.Schema({
 
 UserSchema.statics.authenticate = (email, password) => {
     return new Promise((resolve, reject) => {
-        UserModel.findOne({"email": email}).exec().then(user => {
+        User.findOne({"email": email}).exec().then(user => {
             if (!user) {
                 let err = new Error('An account could not be found using that email/password.');
                 err.status = 401;
@@ -61,6 +61,6 @@ let verifyHash = (password, original) => new Promise((resolve, reject) => {
     });
 });
 
-let UserModel = mongoose.model('User', UserSchema);
+let User = mongoose.model('User', UserSchema);
 
-module.exports = UserModel;
+module.exports = User;

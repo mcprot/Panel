@@ -6,7 +6,8 @@ export default app => {
 
     /* Define endpoint prefix */
     app.use((req, res, next) => {
-        app.locals.error = req.session.error;
+        res.locals.error = req.session.error;
+        res.locals.info = req.session.info;
         req.session.error = null;
         next();
     });
@@ -23,7 +24,7 @@ export default app => {
 
     /* Handler all errors */
     app.use((err, req, res, next) => {
-        return res.json({message: err, status: err.code || 500})
+        return res.render('error', {title: "error"})
     });
 
 };

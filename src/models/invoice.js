@@ -27,6 +27,6 @@ let InvoiceSchema = new mongoose.Schema({
     }
 });
 
-let InvoiceModel = mongoose.model('Invoice', InvoiceSchema);
+let Invoice = mongoose.model('Invoice', InvoiceSchema);
 
-module.exports = InvoiceModel;
+module.exports = Invoice;

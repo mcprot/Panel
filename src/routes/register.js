@@ -1,6 +1,7 @@
-let express = require('express');
-let router = express.Router();
-let User = require('../models/user.model');
+import {Router} from 'express';
+
+let router = Router();
+let User = require('../models/user');
 
 router.get('/', (req, res) => {
     return res.render('register', {title: "Register"});
@@ -27,4 +28,4 @@ router.post('/', (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

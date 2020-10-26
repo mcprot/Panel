@@ -1,11 +1,11 @@
-let express = require('express');
-let router = express.Router();
+import {Router} from 'express';
+let router = Router();
 
-let Proxy = require("../models/proxy.model");
+let Proxy = require("../models/proxy");
 let Analytic = require("../models/analytic");
-let Plan = require("../models/plan.model");
-let Invoice = require("../models/invoice.model");
-let Connections = require("../models/connection.model");
+let Plan = require("../models/plan");
+let Invoice = require("../models/invoice");
+let Connections = require("../models/connection");
 
 router.get('/new/:plan', function (req, res, next) {
     Plan.exists({_id: req.params.plan}, function (err, result) {
@@ -204,4 +204,4 @@ router.get('/new', function (req, res, next) {
     res.redirect("/billing/plans");
 });
 
-module.exports = router;
+export default router;

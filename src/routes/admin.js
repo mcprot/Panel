@@ -1,7 +1,7 @@
-let express = require('express');
+import {Router} from 'express';
 let Server = require('../models/server');
-let News = require('../models/news.model');
-let router = express.Router();
+let News = require('../models/news');
+let router = Router();
 
 // news
 router.get('/news/post', function (req, res, next) {
@@ -130,4 +130,4 @@ router.post('/servers/add', (req, res, next) => {
 });
 
 
-module.exports = router;
+export default router;

@@ -1,9 +1,10 @@
-let express = require('express');
-let router = express.Router();
-let News = require('../models/news.model');
-let Connections = require('../models/connection.model');
+import {Router} from 'express';
+let router = Router();
+let News = require('../models/news');
+let Connections = require('../models/connection');
 
 router.get('/', function (req, res, next) {
+
     let bandwidth_bytes_egress = 0;
     let bandwidth_bytes_ingress = 0;
 
@@ -42,6 +43,7 @@ router.get('/', function (req, res, next) {
             });
         }).sort({date: 1}).limit(5);
     });
+    return res.json({})
 });
 
-module.exports = router;
+export default router;

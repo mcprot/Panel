@@ -16,6 +16,6 @@ let ProxySchema = new mongoose.Schema({
     }
 });
 
-let ProxyModel = mongoose.model('Proxy', ProxySchema);
+let Proxy = mongoose.model('Proxy', ProxySchema);
 
-module.exports = ProxyModel;
+module.exports = Proxy;
