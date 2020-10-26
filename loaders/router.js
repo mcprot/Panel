@@ -23,7 +23,7 @@ export default app => {
 
     /* Handler all errors */
     app.use((err, req, res, next) => {
-        return res.render('error', {error: err, code: err.code || 500})
+        return res.json({message: err, status: err.code || 500})
     });
 
 };

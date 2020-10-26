@@ -1,12 +1,13 @@
 import {Router} from 'express';
 import api from './api';
+import login from './login.route';
 
 let router = Router();
 
 
-router.use('/login', require('./login.route'));
-router.use('/register', require('./register.route'));
 router.use('/api', api);
+router.use('/login', login);
+router.use('/register', require('./register.route'));
 
 router.use((req, res, next) => {
     if(req.user != null){

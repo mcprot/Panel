@@ -7,30 +7,30 @@ import Connection from '../models/connection.model'
 export default {
 
     async getProxies() {
-        Proxy.find({}, (error, proxies) => {
-            if (!error) return proxies;
-        });
+        return await Proxy.find({})
+            .then(proxies => proxies)
+            .catch(() => undefined)
     },
     async getAnalytics() {
-        Analytic.find({}, (error, analytics) => {
-            if (!error) return analytics;
-        });
+        return await Analytic.find({})
+            .then(analytics => analytics)
+            .catch(() => undefined)
     },
     async getPlans() {
-        Plan.find({}, (error, plans) => {
-            if (!error) return plans;
-        });
+        return await Plan.find({})
+            .then(plans => plans)
+            .catch(() => undefined)
     },
     async getServers() {
-        Server.find({}, (error, servers) => {
-            if (!error) return servers;
-        });
+        return await Server.find({})
+            .then(servers => servers)
+            .catch(() => undefined)
     },
     async getServer(key) {
         const query = {api_key: key};
-        Server.find(query, (error, server) => {
-            if (!error) return server;
-        });
+        return await Server.find(query)
+            .then(server => server)
+            .catch(() => undefined)
     },
     async updateProxyAnalytics(serverId, proxy) {
         Proxy.findById({_id: proxy.proxy_id}, (err, doc) => {
