@@ -5,7 +5,9 @@ export default {
         if(req.session.userid){
             const userRecord = await Users.findById(req.session.userid);
             if(userRecord) res.locals.user = userRecord;
-            next(userRecord);
+            return next();
+        }else{
+            return res.redirect('/login');
         }
     }
 }

@@ -3,8 +3,7 @@ let router = Router();
 let News = require('../models/news');
 let Connections = require('../models/connection');
 
-router.get('/', function (req, res, next) {
-
+router.get('/', (req, res, next) => {
     let bandwidth_bytes_egress = 0;
     let bandwidth_bytes_ingress = 0;
 
@@ -43,7 +42,7 @@ router.get('/', function (req, res, next) {
             });
         }).sort({date: 1}).limit(5);
     });
-    return res.json({})
+
 });
 
 export default router;

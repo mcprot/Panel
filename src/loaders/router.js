@@ -24,6 +24,7 @@ export default app => {
 
     /* Handler all errors */
     app.use((err, req, res, next) => {
+        res.locals.error = err;
         return res.render('error', {title: "error"})
     });
 

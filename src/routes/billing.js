@@ -1,15 +1,16 @@
 import {Router} from 'express';
+import {apiService} from '../services';
 let router = Router();
 
-let Plan = require('../models/plan');
 
-router.get('/plans', function (req, res, next) {
-    Plan.find({custom: false}, (err, plans) => {
-        return res.render("billing_plans", {
+router.get('/plans',
+    async (req, res, next) => {
+        const plans = await apiService.getPlans();
+        if(plans) return res.render("billing_plans", {
             title: "Billing | Plans",
-            plans: plans,
+            plans: plans.splice(0, 4),
         });
-    }).sort({price: 1}).limit(4);
+        return next();
 });
 
 export default router;

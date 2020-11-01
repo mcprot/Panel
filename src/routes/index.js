@@ -1,28 +1,27 @@
 import {Router} from 'express';
-let router = Router();
-
+import {userMiddleware} from '../middleware';
 import api from './api';
 import login from './login';
 import register from './register';
-
-router.use('/api', api);
-router.use('/login', login);
-router.use('/register', register);
-
-
+import root from './root';
 import dashboard from './dashboard';
 import billing from './billing';
 import docs from './docs';
 import proxy from './proxy';
-import logout from './logout';
+import admin from './admin';
 
+let router = Router();
+router.use('/api', api);
+router.use('/login', login);
+router.use('/register', register);
+
+router.use(userMiddleware.injectUser)
+
+router.use('/', root);
 router.use('/dashboard', dashboard);
 router.use('/billing', billing);
 router.use('/docs', docs);
 router.use('/proxy', proxy);
-router.use('/logout', logout);
-
-import admin from './admin';
 
 router.use('/admin', admin);
 
