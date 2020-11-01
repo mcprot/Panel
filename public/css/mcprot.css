@@ -1,0 +1,25 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    --bg: hsl(215, 16%, 28%);
+    --fg: hsl(215, 16%, 21%);
+    --nv: hsl(215, 16%, 16%);
+
+    --m1: hsl(215, 8%, 94%);
+    --m2: hsl(215, 8%, 67%);
+
+    --pr: hsl(215, 91%, 58%);
+}
+
+body {
+    background-color: var(--bg);
+}
+
+card {
+    width: 100%;
+    height: auto;
+    margin: 1em 1.5em;
+}
