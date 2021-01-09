@@ -8,6 +8,7 @@ export default app => {
     app.use((req, res, next) => {
         res.locals.error = req.session.error;
         res.locals.info = req.session.info;
+        res.locals.url = req.url;
         req.session.error = null;
         next();
     });

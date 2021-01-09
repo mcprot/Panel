@@ -69,7 +69,10 @@ export default {
         Server.updateOne(query, document, (err, doc) => {
             return err ? false : doc;
         });
+    },
+    async getProxiesByUser(_id) {
+        return await Proxy.find({user: _id})
+            .then(proxies => proxies)
+            .catch(() => undefined)
     }
-
-
 }

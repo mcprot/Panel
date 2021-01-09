@@ -1,0 +1,80 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/navbar.ejs') %>
+<div class="grid-frame">
+    <%- include('partials/sidebar.ejs') %>
+    <div class="page-body">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <span class="page-subtitle">A brief overview of your account.</span>
+        </div>
+        <div class="flex-frame flex-grid">
+            <div class="stat-card">
+                <div class="header">
+                    <span class="title">Bandwidth</span>
+                </div>
+                <div class="tier-list">
+                    <span class="bignum"><%= ingress.substr(0, ingress.length -2) %></span>
+                    <span><%= ingress.substr(ingress.length -2, ingress.length) %></span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="header">
+                    <span class="title">Connections</span>
+                </div>
+                <div class="tier-list">
+                    <span class="bignum"><%= connection_count %></span>
+                    <span>users</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="header">
+                    <span class="title">Proxies</span>
+                </div>
+                <div class="tier-list">
+                    <span class="bignum">234.21</span>
+                    <span>GB</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex-frame flex-half-row mt-1">
+            <div class="data-card" style="padding-bottom: 0;">
+                <div class="header">
+                    <span class="title">Notices</span>
+                    <span class="status">Showing 1/1</span>
+                </div>
+                <div class="tier-list mt-1 text-muted">
+                    <div class="flex-frame flex-space">
+                        <div class="">Type</div>
+                        <div class="">Complete</div>
+                        <div class="">Complete</div>
+                        <div class="">Complete</div>
+                    </div>
+                </div>
+            </div>
+            <div class="data-card" style="padding-bottom: 0;">
+                <div class="header">
+                    <span class="title">Notifications</span>
+                    <span class="status">Showing 2/2</span>
+                </div>
+                <div class="tier-list mt-1 text-muted">
+                    <div class="flex-frame flex-space">
+                        <div>
+                            <i class="fas fa-wrench fa-fw"></i>&nbsp;&nbsp;Server Maintenance (July 12th, 8:30am - July
+                            13th, 2:30am)
+                        </div>
+                        <div class="">Complete</div>
+                    </div>
+                    <div class="flex-frame flex-space">
+                        <div>
+                            <i class="fas fa-wrench fa-fw"></i>&nbsp;&nbsp;Server Maintenance (July 12th, 8:30am - July
+                            13th, 2:30am)
+                        </div>
+                        <div class="">Complete</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,7 +16,7 @@ router.post('/',
         try {
             const userRecord = await userService.createUser(req.body);
             if (userRecord) {
-                req.session.userid = user._id;
+                req.session.userid = userRecord._id;
                 res.redirect('/dashboard');
             }
         } catch (e) {

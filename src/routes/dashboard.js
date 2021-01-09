@@ -30,6 +30,7 @@ router.get('/', (req, res, next) => {
 
             let text_egress = gig_egress > 1000 ? (gig_egress/1000).toFixed(2) + "TB"
                 : gig_egress.toFixed(2) + "GB";
+
             let text_ingress = gig_ingress > 1000 ? (gig_ingress/1000).toFixed(2) + "TB"
                 : gig_ingress.toFixed(2) + "GB";
 

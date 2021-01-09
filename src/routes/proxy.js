@@ -1,4 +1,6 @@
 import {Router} from 'express';
+import {apiService} from '../services';
+
 let router = Router();
 
 let Proxy = require("../models/proxy");
@@ -17,13 +19,15 @@ router.get('/new/:plan', function (req, res, next) {
     });
 });
 
-router.get('/manage', function (req, res, next) {
-    Proxy.find({user: req.user._id}, (err, proxies) => {
-        Plan.find({}, (err, plans) => {
-            res.render("proxy_manage", {title: "Proxy | Manage", proxies: proxies, plans: plans});
-        });
+router.get('/manage',
+    async (req, res, next) => {
+        const proxies = await apiService.getProxiesByUser(req.session.userid);
+        const plans = await apiService.getPlans();
+        if(!proxies || !plans) {
+            return next(new Error("Failed to fetch data."))
+        }
+        return res.render("proxies", {title: "Proxy | Manage", proxies: proxies, plans: plans});
     });
-});
 
 router.get('/analytics/:proxy', function (req, res, next) {
     let now = new Date();
@@ -65,10 +69,10 @@ router.get('/analytics/:proxy', function (req, res, next) {
                     let conDate = con.date_disconnect;
                     //console.log(conDay + " - " + dayDate);
                     if (conDate.getDate() == dayInc) {
-                        if(con.success){
-                            successfulConnections+=1;
-                        }else{
-                            failedConnections+=1;
+                        if (con.success) {
+                            successfulConnections += 1;
+                        } else {
+                            failedConnections += 1;
                         }
                     }
                 });

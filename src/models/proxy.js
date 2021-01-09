@@ -11,8 +11,18 @@ let ProxySchema = new mongoose.Schema({
         required: true
     },
     options: {
-        type: Map,
-        default: {}
+        allowVpn: {
+            type: Boolean,
+            default: false
+        },
+        allowBots: {
+            type: Boolean,
+            default: false
+        },
+        doLimbo: {
+            type: Boolean,
+            default: false
+        }
     }
 });
 
