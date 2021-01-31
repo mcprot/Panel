@@ -6,8 +6,17 @@ Branch of [mcprot panel](https://github.com/mcprot/Panel) refactored and modifie
 
 ```bash
 git clone https://github.com/mcprot/Panel.git
+cd Panel
 git checkout -b python
 python -m pip install virtualenv && python -m venv env
 source env/bin/activate
 python -m pip install -r requirements.txt
+```
+
+## Run:
+
+Most likely will be updated
+
+```bash
+python app.py
 ```
