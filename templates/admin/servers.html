@@ -1,0 +1,96 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/navbar.ejs') %>
+
+
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor"><%=title%></h3>
+        </div>
+        <!--<div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><%=title%></li>
+            </ol>
+        </div>-->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <a href="/admin/servers/add">
+                <button type="button" class="btn waves-effect waves-light btn-info">Add Server</button>
+            </a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Location</th>
+                        <th>API Key</th>
+                        <th>Status</th>
+                        <th class="text-nowrap">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <% servers.forEach(function(server){ %>
+
+                    <tr>
+                        <td><%= server.ip_address %></td>
+                        <td><%= server.location %></td>
+                        <td>
+                            <code><%= server.api_key %></code>
+                        </td>
+                        <td>
+                            <% status.find(stat => {
+                            if(stat.server_id == server._id){
+                            if(stat.online){ %>
+                                <span class="label label-success">Online</span>
+                            <% }else{
+                            %>
+                                <span class="label label-danger">Offline</span>
+                            <%
+                            }
+                            }
+                            }) %>
+                        </td>
+                        <td class="text-nowrap">
+                            <a href="/admin/analytics/server/<%= server._id %>" data-toggle="tooltip"
+                               data-original-title="Analytics"> <i class="fa fa-line-chart text-info m-r-10"></i> </a>
+                            <a href="/admin/servers/delete/<%= server._id %>" data-toggle="tooltip"
+                               data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer"> © 2020 mcprot </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<%- include('../partials/scripts.ejs') %>
+<%- include('../partials/footer.ejs') %>

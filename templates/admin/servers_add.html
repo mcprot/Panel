@@ -1,0 +1,87 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/navbar.ejs') %>
+
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor"><%=title%></h3>
+        </div>
+        <!--<div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><%=title%></li>
+            </ol>
+        </div>-->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-body">
+                <h4 class="card-title">Add Server</h4>
+                <form class="form-horizontal m-t-40" method="post" action="/admin/servers/add">
+                    <div class="form-group">
+                        <label>IP Address <span class="help"> e.g. "1.1.1.1"</span></label>
+                        <input type="text" name="ip_address" class="form-control" value="8.8.8.8">
+                    </div>
+                    <div class="form-group">
+                        <label>Location <span class="help"> e.g. "Las Vegas, BuyVM"</span></label>
+                        <input type="text" name="location" class="form-control" value="New York, BuyVM">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="api_key" id="api_key" class="form-control" value="API Key">
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="button" onclick="generateAPIKey()">Generate</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Add Server</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     </div>
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer"> © 2020 mcprot </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Page wrapper  -->
+<!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<script type="text/javascript">
+    function makeKey(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+    function generateAPIKey(){
+        let apiKey = makeKey(16);
+        document.getElementById("api_key").value = apiKey;
+    }
+</script>
+
+<%- include('../partials/scripts.ejs') %>
+<%- include('../partials/footer.ejs') %>
