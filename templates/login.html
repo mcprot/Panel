@@ -1,4 +1,6 @@
-<%- include('partials/header.ejs') %>
+{% extends 'base.html' %}
+
+{% block content %}
 
 <div class="login-register" style="background: #383F48;">
     <div class="login-box card">
@@ -57,5 +59,4 @@
     </div>
 </div>
 
-<%- include('partials/scripts.ejs') %>
-<%- include('partials/footer.ejs') %>
+{% endblock %}

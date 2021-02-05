@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/icon" href="/images/favicon.ico">
-    <title>mcprot | <%=title %></title>
+    <title>mcprot | {{ title }}</title>
     <!-- Bootstrap Core CSS -->
     <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Vector CSS -->
@@ -35,7 +35,7 @@
     <% if(error){ %>
     swal({
         title: "Error!",
-        text: '<%= error %>',
+        text: '{{ error }}',
         icon: "error",
     });
     <% } %>
@@ -43,7 +43,7 @@
     <% if(info){ %>
     swal({
         title: "Success!",
-        text: '<%= info %>',
+        text: '{{ info }}',
         icon: "success",
     });
     <% } %>
